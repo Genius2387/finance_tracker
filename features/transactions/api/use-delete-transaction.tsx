@@ -1,0 +1,44 @@
+import { InferResponseType } from "hono";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { client } from "@/lib/hono";
+
+type ResponseType =
+  InferResponseType<typeof client.api.transaction[":id"]["$delete"]>;
+
+export const useDeleteTransaction = () => {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation<
+    ResponseType,
+    Error,
+    string // 👈 mutation variable type (id)
+  >({
+    mutationFn: async (id: string) => {
+      const response = await client.api.transaction[":id"]["$delete"]({
+        param: { id },
+      });
+      return response;
+    },
+
+    onSuccess: (_, id) => {
+      // invalidate specific transaction
+      queryClient.invalidateQueries({
+        queryKey: ["transaction", { id }],
+      });
+
+      // invalidate list
+      queryClient.invalidateQueries({
+        queryKey: ["transactions"],
+      });
+
+      toast.success("Transaction deleted!");
+    },
+
+    onError: () => {
+      toast.error("Failed to delete transaction.");
+    },
+  });
+
+  return mutation;
+};

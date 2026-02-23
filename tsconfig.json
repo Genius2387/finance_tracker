@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "features/accounts/api/use-edit-account.tsx"  ],
   "exclude": ["node_modules"]
 }

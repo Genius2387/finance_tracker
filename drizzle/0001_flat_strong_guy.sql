@@ -1,0 +1,1 @@
+ALTER TABLE "accounts" ADD COLUMN "place_id" text;
