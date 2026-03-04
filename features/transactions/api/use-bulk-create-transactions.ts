@@ -17,11 +17,9 @@ export const useBulkCreateTransactions = () => {
         RequestType
     >({
         mutationFn: async (data) => {
-            const response = await client.api.transaction["bulk-create"]["$post"]({
-                json: data,
-            });
-            return await response.json();
-        },
+    const response = await client.api.transaction["bulk-create"]["$post"](data); // ← pass data directly
+    return await response.json();
+},
         onSuccess: () => {
   queryClient.invalidateQueries({
     queryKey: ["transactions"],

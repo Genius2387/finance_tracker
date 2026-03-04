@@ -17,12 +17,12 @@ export const useEditCategory = (id?: string) => {
         RequestType
     >({
         mutationFn: async (json) => {
-            const response = await client.api.categories[":id"]["$patch"]({
-                json,
-                param: { id }
-            });
-            return response;
-        },
+    const response = await client.api.categories[":id"]["$patch"]({
+        json,
+        param: { id }
+    });
+    return await response.json(); // ← await the json
+},
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["category", { id }] });
             queryClient.invalidateQueries({ queryKey: ["categories"] });

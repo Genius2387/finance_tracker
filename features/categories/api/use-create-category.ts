@@ -17,11 +17,9 @@ export const useCreateCategory = () => {
         RequestType
     >({
         mutationFn: async (data) => {
-            const response = await client.api.categories.$post({
-                json: data,
-            });
-            return response;
-        },
+    const response = await client.api.categories.$post(data); // ← pass data directly
+    return await response.json(); // ← await the json
+},
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["categories"] });
             toast.success("Category created successfully!");

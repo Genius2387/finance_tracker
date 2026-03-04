@@ -14,6 +14,9 @@ import { DataTable } from "@/components/ui/data-table";
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkDeleteAccounts } from "@/features/accounts/api/use-bulk-delete-accounts";
+import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
 
 const AccountsPage = () => {
   const newAccount = useNewAccount();
@@ -79,4 +82,11 @@ const AccountsPage = () => {
   );
 }; 
 
-export default AccountsPage;
+// ← wrap in Suspense to fix useSearchParams() error
+export default function Page() {
+  return (
+    <Suspense fallback={<div />}>
+      <AccountsPage />
+    </Suspense>
+  );
+}

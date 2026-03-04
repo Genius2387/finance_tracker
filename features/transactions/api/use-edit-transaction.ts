@@ -4,8 +4,8 @@ import { toast } from "sonner";
 import { client } from "@/lib/hono";
 
 
-type ResponseType = InferResponseType<typeof client.api.transactions[":id"]["$patch"]>;
-type RequestType = InferRequestType<typeof client.api.transactions[":id"]["$patch"]>["json"];
+type ResponseType = InferResponseType<typeof client.api.transaction[":id"]["$patch"]>;
+type RequestType = InferRequestType<typeof client.api.transaction[":id"]["$patch"]>["json"];
 
 
 export const useEditTransaction = (id?: string) => {
@@ -17,11 +17,11 @@ export const useEditTransaction = (id?: string) => {
         RequestType
     >({
         mutationFn: async (json) => {
-            const response = await client.api.transactions[":id"]["$patch"]({
+            const response = await client.api.transaction[":id"]["$patch"]({
                 json,
                 param: { id }
             });
-            return response;
+            return await response.json();
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["transaction", { id }] });

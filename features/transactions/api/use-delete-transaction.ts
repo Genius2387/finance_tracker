@@ -6,7 +6,7 @@ import { client } from "@/lib/hono";
 type ResponseType =
   InferResponseType<typeof client.api.transaction[":id"]["$delete"]>;
 
-export const useDeleteTransaction = () => {
+export const useDeleteTransaction = (id?: string) => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation<
@@ -14,11 +14,11 @@ export const useDeleteTransaction = () => {
     Error,
     string // 👈 mutation variable type (id)
   >({
-    mutationFn: async (id: string) => {
+    mutationFn: async () => {
       const response = await client.api.transaction[":id"]["$delete"]({
         param: { id },
       });
-      return response;
+      return await response.json();
     },
 
     onSuccess: (_, id) => {

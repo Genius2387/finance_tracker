@@ -22,8 +22,8 @@ import { useCreateAccount } from "@/features/accounts/api/use-create-account";
 import { TransactionForm } from "@/features/transactions/components/transaction-form";
 import { Loader2 } from "lucide-react";
 
-const formSchema = insertTransactionSchema.omit({
-  id: true,
+const formSchema = insertTransactionSchema.omit({ id: true }).extend({
+  amount: z.string(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -40,11 +40,11 @@ export const NewTransactionSheet = () => {
   const accountsQuery = useGetAccounts();
 
   const onCreateCategory = (name: string) => {
-    createCategoryMutation.mutate({ name });
+    createCategoryMutation.mutate({ json: { name } });
   };
 
   const onCreateAccount = (name: string) => {
-    createAccountMutation.mutate({ name });
+    createAccountMutation.mutate({ json: {name} });
   };
 
   const categoryOptions =
@@ -69,12 +69,15 @@ export const NewTransactionSheet = () => {
     accountsQuery.isLoading;
 
   const onSubmit = (values: FormValues) => {
-    createTransactionMutation.mutate(values, {
+  createTransactionMutation.mutate(
+    { json: { ...values, amount: parseFloat(values.amount) } },
+    {
       onSuccess: () => {
         onClose();
       },
-    });
-  };
+    }
+  );
+};
 
   return (
     <Sheet

@@ -14,7 +14,6 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AmountInput } from "@/components/ui/amount-input";
-import { insertAccountSchema } from "@/db/schema";
 import {
   Form,
   FormControl,
@@ -28,7 +27,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { convertAmountToMiliunits } from "@/lib/utils";
 
 const formSchema = z.object({
-  date: z.coerce.date(),
+  date: z.date(),
   accountId: z.string(),
   categoryId: z.string().nullable().optional(),
   payee: z.string(),
@@ -36,17 +35,13 @@ const formSchema = z.object({
   notes: z.string().nullable().optional(),
 });
 
-const apiSchema = insertAccountSchema.omit({
-  id: true,
-})
-
 type FormValues = z.infer<typeof formSchema>;
-type ApiFormValues = z.input<typeof apiSchema>;
+
 
 type Props = {
   id?: string;
   defaultValues?: FormValues;
-  onSubmit: (values: ApiFormValues) => void;
+  onSubmit: (values: FormValues) => void;
   onDelete?: () => void;
   disabled?: boolean;
   accountOptions: { label: string; value: string;}[];
@@ -83,7 +78,7 @@ export const TransactionForm = ({
   onSubmit({
     ...values,
     categoryId: values.categoryId ?? null,
-    amount: amountInMiliunits,
+    amount: amountInMiliunits.toString(),
   });
 };
   const handleDelete = () => {

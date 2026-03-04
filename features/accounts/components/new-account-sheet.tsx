@@ -25,12 +25,12 @@ export const NewAccountSheet = () => {
   const mutation = useCreateAccount();
 
   const onSubmit = (values: FormValues) => {
-    mutation.mutate(values, {
+    mutation.mutate({ json: values }, {
       onSuccess: () => {
         onClose();
       }, 
     })
-  };
+};
 
   return (
     <Sheet

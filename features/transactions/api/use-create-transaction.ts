@@ -17,10 +17,8 @@ export const useCreateTransaction = () => {
         RequestType
     >({
         mutationFn: async (data) => {
-            const response = await client.api.transaction.$post({
-                json: data,
-            });
-            return response;
+            const response = await client.api.transaction.$post(data);
+            return await response.json();
         },
         onSuccess: () => {
   queryClient.invalidateQueries({

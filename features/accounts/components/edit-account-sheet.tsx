@@ -63,10 +63,10 @@ export const EditAccountSheet = () => {
 
   }
   const defaultValues = accountQuery.data ? {
-    name: accountQuery.data.name
-  } : {
-    name: "",
-  }
+  name: accountQuery.data[0]?.name ?? ""
+} : {
+  name: "",
+}
   return (
     <>
       <ConfirmDialog />

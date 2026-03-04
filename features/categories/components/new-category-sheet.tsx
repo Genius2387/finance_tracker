@@ -24,13 +24,13 @@ export const NewCategorySheet = () => {
 
   const mutation = useCreateCategory();
 
-  const onSubmit = (values: FormValues) => {
-    mutation.mutate(values, {
+const onSubmit = (values: FormValues) => {
+    mutation.mutate({ json: values }, { // ← wrap in { json: values }
       onSuccess: () => {
         onClose();
       }, 
     })
-  };
+};
 
   return (
     <Sheet

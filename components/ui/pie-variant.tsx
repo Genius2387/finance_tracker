@@ -24,47 +24,47 @@ export const PieVariant = ({ data }: Props) => {
         <ResponsiveContainer width="100%" height={350}>
             <PieChart>
                 <Legend
-                    layout="horizonatal"
+                    layout="horizontal"
                     verticalAlign="bottom"
                     align="right"
                     iconType="circle"
                     content={({ payload }: any) => {
-    if (!data || !payload) return null;
+                        if (!data || !payload) return null;
 
-    const total = data.reduce((acc, curr) => acc + curr.value, 0);
+                        const total = data.reduce((acc, curr) => acc + curr.value, 0);
 
-    return (
-        <ul className="flex flex-col space-y-2">
-            {payload.map((entry: any, index: number) => {
-                const value = entry.payload.value;
-                const percentage =
-                    total > 0 ? (value / total) * 100 : 0;
+                        return (
+                            <ul className="flex flex-col space-y-2">
+                                {payload.map((entry: any, index: number) => {
+                                    const value = entry.payload.value;
+                                    const percentage =
+                                        total > 0 ? (value / total) * 100 : 0;
 
-                return (
-                    <li
-                        key={`item-${index}`}
-                        className="flex items-center space-x-2"
-                    >
-                        <span
-                            className="size-2 rounded-full"
-                            style={{ backgroundColor: entry.color }}
-                        />
-                        <div className="space-x-1">
-                            <span className="text-sm text-muted-foreground">
-                                {entry.value}
-                            </span>
-                            <span className="text-sm">
-                                {formatPercentage(percentage)}
-                            </span>
-                        </div>
-                    </li>
-                );
-            })}
-        </ul>
-    );
-}}
+                                    return (
+                                        <li
+                                            key={`item-${index}`}
+                                            className="flex items-center space-x-2"
+                                        >
+                                            <span
+                                                className="size-2 rounded-full"
+                                                style={{ backgroundColor: entry.color }}
+                                            />
+                                            <div className="space-x-1">
+                                                <span className="text-sm text-muted-foreground">
+                                                    {entry.value}
+                                                </span>
+                                                <span className="text-sm">
+                                                    {formatPercentage(percentage)}
+                                                </span>
+                                            </div>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        );
+                    }}
                 />
-                <Tooltip content={<CategoryTooltip  />} />
+                <Tooltip content={<CategoryTooltip />} />
                 <Pie 
                     data={data}
                     cx="50%"

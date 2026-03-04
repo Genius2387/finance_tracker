@@ -22,8 +22,8 @@ import { useCreateCategory } from "@/features/categories/api/use-create-category
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useCreateAccount } from "@/features/accounts/api/use-create-account";
 
-const formSchema = insertTransactionSchema.omit({
-  id: true,
+const formSchema = insertTransactionSchema.omit({ id: true }).extend({
+  amount: z.string(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -49,11 +49,11 @@ export const EditTransactionSheet = () => {
 
   // Create handlers
   const onCreateCategory = (name: string) => {
-    createCategoryMutation.mutate({ name });
-  };
+    createCategoryMutation.mutate({ json: { name } });
+};
 
   const onCreateAccount = (name: string) => {
-    createAccountMutation.mutate({ name });
+    createAccountMutation.mutate({ json: { name } });
   };
 
   // Options
@@ -83,25 +83,31 @@ export const EditTransactionSheet = () => {
 
   // Submit
   const onSubmit = (values: FormValues) => {
-    editMutation.mutate(values, {
+  editMutation.mutate(
+    {
+      ...values,
+      amount: parseFloat(values.amount),
+    },
+    {
       onSuccess: () => {
         onClose();
       },
-    });
-  };
+    }
+  );
+};
 
   // Delete
   const onDelete = async () => {
     const ok = await confirm();
 
     if (ok) {
-      deleteMutation.mutate(undefined, {
+      deleteMutation.mutate(undefined as any, {
         onSuccess: () => {
           onClose();
         },
       });
     }
-  };
+};
 
   // Default values
   const defaultValues = transactionQuery.data

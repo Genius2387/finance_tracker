@@ -16,12 +16,10 @@ export const useBulkDeleteCategories = () => {
         Error,
         RequestType
     >({
-        mutationFn: async (data) => {
-            const response = await client.api.categories["bulk-delete"]["$post"]({
-                json: data,
-            });
-            return await response.json();
-        },
+       mutationFn: async (data) => {
+    const response = await client.api.categories["bulk-delete"]["$post"](data); // ← pass data directly
+    return await response.json();
+},
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["categories"] });
             queryClient.invalidateQueries({ queryKey: ["summary"] });

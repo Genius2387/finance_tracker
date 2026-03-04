@@ -14,6 +14,9 @@ import { DataTable } from "@/components/ui/data-table";
 import { useGetCategories } from "@/features/categories/api/use-get-categories";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkDeleteCategories } from "@/features/categories/api/use-bulk-delete-categories";
+import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
 
 const CategoriesPage = () => {
   const newCategory = useNewCategory();
@@ -69,9 +72,9 @@ const CategoriesPage = () => {
               data={categories} 
               filterKey="name " 
               onDelete={(row) => {
-                const ids = row.map((r) => r.original.id);
-                deleteCategories.mutate({ ids });
-              }} 
+  const ids = row.map((r) => r.original.id);
+  deleteCategories.mutate({ json: { ids } }); // ← fixed
+}} 
               disabled={isDisabled} />
         </CardContent>
       </Card>
@@ -79,4 +82,11 @@ const CategoriesPage = () => {
   );
 };
 
-export default CategoriesPage;
+// ← wrap in Suspense to fix useSearchParams() error
+export default function Page() {
+  return (
+    <Suspense fallback={<div />}>
+      <CategoriesPage />
+    </Suspense>
+  );
+}

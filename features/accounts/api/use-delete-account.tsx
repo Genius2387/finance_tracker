@@ -16,11 +16,11 @@ export const useDeleteAccount = (id?: string) => {
         Error  
     >({
         mutationFn: async () => {
-            const response = await client.api.accounts[":id"]["$delete"]({
-                param: { id }
-            });
-            return response;
-        },
+    const response = await client.api.accounts[":id"]["$delete"]({
+        param: { id }
+    });
+    return await response.json(); // ← await the json
+},
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["account", { id }] });
             queryClient.invalidateQueries({ queryKey: ["accounts"] });

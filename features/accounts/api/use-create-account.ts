@@ -17,10 +17,8 @@ export const useCreateAccount = () => {
         RequestType
     >({
         mutationFn: async (data) => {
-            const response = await client.api.accounts.$post({
-                json: data,
-            });
-            return response;
+            const response = await client.api.accounts.$post(data);
+            return await response.json();
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["accounts"] });

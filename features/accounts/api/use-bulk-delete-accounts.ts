@@ -8,7 +8,7 @@ type ResponseType = InferResponseType<typeof client.api.accounts["bulk-delete"][
 type RequestType = InferRequestType<typeof client.api.accounts["bulk-delete"]["$post"]>;
 
 
-export const useBulkDeleteAccounts = () => {
+export const useBulkDeleteAccounts = () => {    
   const queryClient = useQueryClient();
 
     const mutation = useMutation<
@@ -17,9 +17,7 @@ export const useBulkDeleteAccounts = () => {
         RequestType
     >({
         mutationFn: async (data) => {
-            const response = await client.api.accounts["bulk-delete"]["$post"]({
-                json: data,
-            });
+            const response = await client.api.accounts["bulk-delete"]["$post"](data);
             return await response.json();
         },
         onSuccess: () => {

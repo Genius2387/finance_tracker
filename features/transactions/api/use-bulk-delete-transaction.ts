@@ -17,9 +17,7 @@ export const useBulkDeleteTransactions = () => {
         RequestType
     >({
         mutationFn: async (data) => {
-            const response = await client.api.transaction["bulk-delete"]["$post"]({
-                json: data,
-            });
+            const response = await client.api.transaction["bulk-delete"]["$post"](data);
             return await response.json();
         },
         onSuccess: () => {

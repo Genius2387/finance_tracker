@@ -62,11 +62,11 @@ export const EditCategorySheet = () => {
     }
 
   }
-  const defaultValues = categoryQuery.data ? {
-    name: categoryQuery.data.name
-  } : {
+ const defaultValues = categoryQuery.data ? {
+    name: categoryQuery.data[0].name  // ← access first element
+} : {
     name: "",
-  }
+}
   return (
     <>
       <ConfirmDialog />
