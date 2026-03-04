@@ -10,7 +10,7 @@ const DashboardLayout = ({ children }: Props) => {
         <>
         <Header />
         <NewAccountSheet />
-        <main>
+        <main className="max-w-screen-2xl mx-auto px-6 lg:px-10 py-6">
             {children}
         </main>
         </>

@@ -5,6 +5,8 @@ import { Popover as PopoverPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 
+const PopoverClose = PopoverPrimitive.Close;
+
 function Popover({
   ...props
 }: React.ComponentProps<typeof PopoverPrimitive.Root>) {
@@ -86,4 +88,5 @@ export {
   PopoverHeader,
   PopoverTitle,
   PopoverDescription,
+  PopoverClose
 }
